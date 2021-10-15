@@ -6,17 +6,13 @@ import java.util.Map;
 import java.util.Iterator;
 
 public class HashMultiSet<T> implements MultiSet<T> {
-	private Map<T,Integer> muset;
+	private HashMap<T,Integer> muset;
+	private int size;
+	
 	public HashMultiSet(){
 		this.muset=new HashMap<>();
 	}
 	
-	/*public HashMultiSet(HashMultiSet<T> hms) {
-		this();
-		for (int i=0; i<hms.muset.size();i++) {
-			this.muset.put(hms.muset.get(i),i);
-		}
-	}*/
 	
 	public HashMultiSet(Collection<T> colle) {
 		this();
@@ -28,39 +24,78 @@ public class HashMultiSet<T> implements MultiSet<T> {
 	@Override
 	public boolean add(T e, int count) {
 		// TODO Auto-generated method stub
-		this.muset.put(e,(Integer)count);
+		//On ajoute rien
+		if(count==0) {
+			return false;
+		}
+		if(muset.containsKey(e)) {
+			muset.put(e,muset.get(e).intValue()+count);
+		}else {
+			muset.put(e, count);
+			size+=count;
+		}
 		return true;
 	}
 	@Override
 	public boolean add(T e) {
 		// TODO Auto-generated method stub
-		this.muset.put(e, (Integer)this.muset.get(e));
-		return false;
+		if(muset.containsKey(e)) {
+			muset.put(e, muset.get(e).intValue()+1);
+		}else {
+			muset.put(e, 1);
+		}
+		size++;
+		return true;
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(Object e) {
 		// TODO Auto-generated method stub
-		
-		return false;
+		if(!muset.containsKey(e)) {
+			return false;
+		}
+		if(muset.get(e).intValue()>1) {
+			int val=muset.get(e).intValue();
+			val--;
+			muset.put((T)e, val);
+		}
+		return true;
 	}
+	
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(Object e, int count) {
 		// TODO Auto-generated method stub
-		return false;
+		if(!muset.containsKey(e)) {
+			return false;
+		}
+		if(muset.get(e).intValue()>count) {
+			int val=muset.get(e).intValue();
+			val=val-count;
+			muset.put((T)e, val);
+		}else {
+			muset.remove(e);
+		}
+		return true;
 	}
 	@Override
 	public int count(T o) {
 		// TODO Auto-generated method stub
-		return 0;
+		if(!muset.containsKey(o)) {
+			return 0;
+		}
+		int res=muset.get(o).intValue();
+		return res;
 	}
 	@Override
 	public void clear() {
 		// TODO Auto-generated method stub
-		
+		muset.clear();
+		this.size=0;
 	}
 	@Override
 	public int size() {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.size;
 	}
 }
