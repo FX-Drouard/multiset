@@ -1,11 +1,14 @@
 package pobj.multiset;
 
 import java.util.AbstractCollection;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import java.util.Iterator;
+import java.util.List;
 
 public class HashMultiSet<T> extends AbstractCollection<T> implements MultiSet<T> {
 	private HashMap<T,Integer> muset;
@@ -143,5 +146,16 @@ public class HashMultiSet<T> extends AbstractCollection<T> implements MultiSet<T
 	public Iterator<T> iterator() {
 		// TODO Auto-generated method stub
 		return new HashMultiSetIterator();
+	}
+
+
+	@Override
+	public List<T> elements() {
+		List<T> res=new ArrayList<>();
+		for(T e:muset.keySet()) {
+			res.add(e);
+		}
+		// TODO Auto-generated method stub
+		return res;
 	}
 }
