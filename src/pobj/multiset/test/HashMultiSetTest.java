@@ -20,6 +20,7 @@ public class HashMultiSetTest {
 		m.add("a");
 		m.add("a",5);
 		m.add("b",3);
+		
 	}
 	
 	@Test 

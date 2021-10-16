@@ -1,16 +1,19 @@
 package pobj.multiset;
 
+import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Iterator;
 
-public class HashMultiSet<T> implements MultiSet<T> {
+public class HashMultiSet<T> extends AbstractCollection<T> implements MultiSet<T> {
 	private HashMap<T,Integer> muset;
 	private int size;
 	
 	public HashMultiSet(){
-		this.muset=new HashMap<>();
+		this.muset=new HashMap<T,Integer>();
+		size=0;
 	}
 	
 	
@@ -19,6 +22,7 @@ public class HashMultiSet<T> implements MultiSet<T> {
 		for (T c:colle) {
 			this.add(c);
 		}
+		size=colle.size();
 	}
 	
 	@Override
@@ -27,11 +31,13 @@ public class HashMultiSet<T> implements MultiSet<T> {
 		//On ajoute rien
 		if(count==0) {
 			return false;
-		}
-		if(muset.containsKey(e)) {
-			muset.put(e,muset.get(e).intValue()+count);
 		}else {
-			muset.put(e, count);
+			if(muset.containsKey(e)) {
+				muset.put(e,muset.get(e).intValue()+count);
+			}else {
+				muset.put(e, count);
+				
+			}
 			size+=count;
 		}
 		return true;
@@ -59,6 +65,7 @@ public class HashMultiSet<T> implements MultiSet<T> {
 			val--;
 			muset.put((T)e, val);
 		}
+		size--;
 		return true;
 	}
 	
@@ -73,9 +80,12 @@ public class HashMultiSet<T> implements MultiSet<T> {
 			int val=muset.get(e).intValue();
 			val=val-count;
 			muset.put((T)e, val);
+			size-=count;
 		}else {
 			muset.remove(e);
+			
 		}
+		
 		return true;
 	}
 	@Override
@@ -97,5 +107,41 @@ public class HashMultiSet<T> implements MultiSet<T> {
 	public int size() {
 		// TODO Auto-generated method stub
 		return this.size;
+	}
+	
+	private class HashMultiSetIterator implements Iterator<T>{
+		private int ind=0;
+		
+		@Override
+		public boolean hasNext() {
+			return (ind!=size);
+		}
+		
+		public T next() {
+			int cpt=0;
+			if(!hasNext()) {
+				throw new NoSuchElementException();
+			}
+			else {
+				for(T k:muset.keySet()) {
+					cpt+=count(k);
+					if(ind<cpt) {
+						ind++;
+						return k;
+					}
+				}
+			}
+			return null;
+		}
+		
+		
+		
+		
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		// TODO Auto-generated method stub
+		return new HashMultiSetIterator();
 	}
 }
