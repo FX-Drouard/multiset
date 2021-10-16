@@ -11,7 +11,7 @@ import java.util.Comparator;
 public class WordCount {
 	public static void wordcount(MultiSet<String> ms) throws IOException {
 		//Attention : Le path du fichier dépend de l'hôte a modifier en fonction de la machine
-		String file ="MonFichier.txt";
+		String file ="/home/alex/git/multiset/data/MonFichier.txt"; //"MonFichier.txt";
 		BufferedReader br=new BufferedReader(new FileReader(file));
 		String line;
 		while((line=br.readLine())!=null) {
@@ -44,9 +44,33 @@ public class WordCount {
 		}
 	}
 	
+	public static void wordcount2(MultiSet<String> ms) throws IOException {
+		//Attention : Le path du fichier dépend de l'hôte a modifier en fonction de la machine
+		String file ="/home/alex/git/multiset/data/MonFichier.txt"; //"MonFichier.txt";
+		BufferedReader br=new BufferedReader(new FileReader(file));
+		String line;
+		while((line=br.readLine())!=null) {
+			for(String word: line.split("\\P{L}+")) {
+				if(word.equals("")) continue;
+				ms.add(word);
+			}
+		}
+		br.close();
+		
+		List<String> elements=((NaiveMultiSet<String>) ms).sortFreq();
+		
+		for(int i=0;i<10;i++) {
+			System.out.println(elements.get(i));
+		}
+	}
+	
 	public static void main(String[] args) throws IOException{
 		MultiSet<String> mset= new HashMultiSet<>();
 		wordcount(mset);
+		
+		System.out.println("\nOn saute une ligne\n");
+		MultiSet<String> nset= new NaiveMultiSet<>();
+		wordcount2(nset);
 	}
 		
 	
