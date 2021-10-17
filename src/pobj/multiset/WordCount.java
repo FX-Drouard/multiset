@@ -6,12 +6,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import pobj.util.Chrono;
+
 import java.util.Comparator;
 
 public class WordCount {
 	public static void wordcount(MultiSet<String> ms) throws IOException {
 		//Attention : Le path du fichier dépend de l'hôte a modifier en fonction de la machine
-		String file ="git/multiset/data/WarAndPeace.txt"; //"MonFichier.txt";
+		String file ="/home/alex/git/multiset/data/WarAndPeace.txt"; //"MonFichier.txt";
 		BufferedReader br=new BufferedReader(new FileReader(file));
 		String line;
 		while((line=br.readLine())!=null) {
@@ -46,7 +49,7 @@ public class WordCount {
 	
 	public static void wordcount2(MultiSet<String> ms) throws IOException {
 		//Attention : Le path du fichier dépend de l'hôte a modifier en fonction de la machine
-		String file ="git/multiset/data/WarAndPeace.txt"; //"MonFichier.txt";
+		String file ="/home/alex/git/multiset/data/WarAndPeace.txt"; //"MonFichier.txt";
 		BufferedReader br=new BufferedReader(new FileReader(file));
 		String line;
 		while((line=br.readLine())!=null) {
@@ -65,12 +68,19 @@ public class WordCount {
 	}
 	
 	public static void main(String[] args) throws IOException{
+		
+		Chrono chrono1= new Chrono();
 		MultiSet<String> mset= new HashMultiSet<>();
 		wordcount(mset);
+		chrono1.stop();
 		
 		System.out.println("\n\n");
+		
+		Chrono chrono2 = new Chrono();
+		
 		MultiSet<String> nset= new NaiveMultiSet<>();
 		wordcount2(nset);
+		chrono2.stop();
 	}
 		
 	
