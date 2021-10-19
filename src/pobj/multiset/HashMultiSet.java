@@ -67,6 +67,8 @@ public class HashMultiSet<T> extends AbstractCollection<T> implements MultiSet<T
 			int val=muset.get(e).intValue();
 			val--;
 			muset.put((T)e, val);
+		}else {
+			muset.remove(e);
 		}
 		size--;
 		return true;

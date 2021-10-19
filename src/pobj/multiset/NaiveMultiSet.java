@@ -3,18 +3,86 @@ package pobj.multiset;
 import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 ;
 public class NaiveMultiSet<T> extends AbstractCollection<T> implements MultiSet<T>{
 	private List<T> ls;
-	private List<Integer> freq;
+	//private List<Integer> freq;
 	
 	public NaiveMultiSet() {
 		this.ls= new ArrayList<>();
-		this.freq= new ArrayList<>();
+		//this.freq= new ArrayList<>();
 	}
 
+	
+	public boolean add(T e, int count) {
+		if(count ==0) {
+			return false;
+		}
+		for(int i=0;i<count;i++) {
+			ls.add(e);
+		}
+		return true;
+	}
+	
+	public boolean add(T e) {
+		ls.add(e);
+		return true;
+	}
+	
+	public boolean remove(Object e) {
+		if(!ls.contains(e)) {
+			return false;
+		}
+		ls.remove(e);
+		return true;
+	}
+	
+	public boolean remove(Object e, int count) {
+		if(!ls.contains(e)) {
+			return false;
+		}
+		for (int i=0;i<count;i++) {
+			ls.remove(e);
+			if(!ls.contains(e)) {
+				break;
+			}
+		}
+		return true;
+	}
+	
+	public int count(T o) {
+		int cpt=0;
+		for(T elem:ls) {
+			if(elem.equals(o))cpt++;
+		}
+		//int cpt=Collections.frequency(ls, o);
+		return cpt;
+	}
+	
+	public void clear() {
+		ls.clear();
+	}
+	
+	public int size() {
+		return ls.size();
+	}
+	
+	public List<T> elements(){
+		List<T> res= new ArrayList<>();
+		for(T elem:ls) {
+			if(res.contains(elem)) {
+				continue;
+			}
+			res.add(elem);
+		}
+		//System.out.println(res);
+		return res;
+	}
+	
+	/*
 	public boolean add(T e, int count) {
 		if(count<=0) {
 			return false;
@@ -110,13 +178,13 @@ public class NaiveMultiSet<T> extends AbstractCollection<T> implements MultiSet<
 			ite--;
 		}
 		return res;
-	}
+	}*/
 
 	
 	
 	@Override
 	public String toString() {
-		return "NaiveMultiSet [ls=" + ls + ", freq=" + freq + "]";
+		return "NaiveMultiSet [ls=" + ls+"]";
 	}
 
 	//Ne fait rien ?
