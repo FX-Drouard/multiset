@@ -29,9 +29,10 @@ public class HashMultiSet<T> extends AbstractCollection<T> implements MultiSet<T
 	}
 	
 	@Override
-	public boolean add(T e, int count) {
-		// TODO Auto-generated method stub
+	public boolean add(T e, int count) throws IllegalArgumentException{
+		
 		//On ajoute rien
+		if (count<0) {throw new IllegalArgumentException("Count est negatif mec");}
 		if(count==0) {
 			return false;
 		}else {
@@ -43,23 +44,25 @@ public class HashMultiSet<T> extends AbstractCollection<T> implements MultiSet<T
 			}
 			size+=count;
 		}
+		assert(this.isConsistent());
 		return true;
 	}
 	@Override
 	public boolean add(T e) {
-		// TODO Auto-generated method stub
+		
 		if(muset.containsKey(e)) {
 			muset.put(e, muset.get(e).intValue()+1);
 		}else {
 			muset.put(e, 1);
 		}
 		size++;
+		assert(this.isConsistent());
 		return true;
 	}
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean remove(Object e) {
-		// TODO Auto-generated method stub
+		
 		if(!muset.containsKey(e)) {
 			return false;
 		}
@@ -67,15 +70,19 @@ public class HashMultiSet<T> extends AbstractCollection<T> implements MultiSet<T
 			int val=muset.get(e).intValue();
 			val--;
 			muset.put((T)e, val);
+		}else {
+			muset.remove(e);
 		}
 		size--;
+		assert(this.isConsistent());
 		return true;
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public boolean remove(Object e, int count) {
-		// TODO Auto-generated method stub
+	public boolean remove(Object e, int count) throws IllegalArgumentException{
+		
+		if (count<0) {throw new IllegalArgumentException("Count est negatif mec");}
 		if(!muset.containsKey(e)) {
 			return false;
 		}
@@ -88,12 +95,12 @@ public class HashMultiSet<T> extends AbstractCollection<T> implements MultiSet<T
 			muset.remove(e);
 			
 		}
-		
+		assert(this.isConsistent());
 		return true;
 	}
 	@Override
 	public int count(T o) {
-		// TODO Auto-generated method stub
+		
 		if(!muset.containsKey(o)) {
 			return 0;
 		}
@@ -102,13 +109,14 @@ public class HashMultiSet<T> extends AbstractCollection<T> implements MultiSet<T
 	}
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
+		
 		muset.clear();
 		this.size=0;
+		assert(this.isConsistent());
 	}
 	@Override
 	public int size() {
-		// TODO Auto-generated method stub
+		
 		return this.size;
 	}
 	
@@ -144,7 +152,7 @@ public class HashMultiSet<T> extends AbstractCollection<T> implements MultiSet<T
 
 	@Override
 	public Iterator<T> iterator() {
-		// TODO Auto-generated method stub
+		
 		return new HashMultiSetIterator();
 	}
 
@@ -155,7 +163,29 @@ public class HashMultiSet<T> extends AbstractCollection<T> implements MultiSet<T
 		for(T e:muset.keySet()) {
 			res.add(e);
 		}
-		// TODO Auto-generated method stub
+		
 		return res;
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder b= new StringBuilder();
+		b.append("multiset: [");
+		for (T e:muset.keySet()) {
+			b.append(e+":"+muset.get(e).intValue()+"; ");
+		}
+		b.delete(b.length()-2, b.length());
+		b.append("]");
+		return b.toString();
+	}
+	
+	public boolean isConsistent() {
+		int cpt=0;
+		for (T e:muset.keySet()) {
+			cpt+=muset.get(e).intValue();
+			if (muset.get(e).intValue()<=0) {return false;}
+		}
+		
+		return this.size()==cpt;
 	}
 }
