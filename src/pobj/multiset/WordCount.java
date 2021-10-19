@@ -14,7 +14,7 @@ import java.util.Comparator;
 public class WordCount {
 	public static void wordcount(MultiSet<String> ms) throws IOException {
 		//Attention : Le path du fichier dépend de l'hôte a modifier en fonction de la machine
-		String file ="/home/alex/git/multiset/data/WarAndPeace.txt"; //"MonFichier.txt";
+		String file ="data/WarAndPeace.txt"; //"MonFichier.txt";
 		BufferedReader br=new BufferedReader(new FileReader(file));
 		String line;
 		while((line=br.readLine())!=null) {
@@ -49,7 +49,7 @@ public class WordCount {
 	
 	public static void wordcount2(MultiSet<String> ms) throws IOException {
 		//Attention : Le path du fichier dépend de l'hôte a modifier en fonction de la machine
-		String file ="/home/alex/git/multiset/data/WarAndPeace.txt"; //"MonFichier.txt";
+		String file ="data/WarAndPeace.txt"; //"MonFichier.txt";
 		BufferedReader br=new BufferedReader(new FileReader(file));
 		String line;
 		while((line=br.readLine())!=null) {
