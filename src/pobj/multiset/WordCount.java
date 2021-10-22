@@ -27,7 +27,7 @@ public class WordCount {
 		}
 		br.close();
 		
-		List<String> elements = new ArrayList<>();
+		/*List<String> elements = new ArrayList<>();
 		elements=ms.elements();
 		
 		Collections.sort(elements, new Comparator<String>() {
@@ -46,7 +46,7 @@ public class WordCount {
 		
 		for(int i=0;i<10;i++) {
 			System.out.println(elements.get(i));
-		}
+		}*/
 	}
 	
 	/*
@@ -74,7 +74,9 @@ public class WordCount {
 		
 		Chrono chrono1= new Chrono();
 		MultiSet<String> mset= new HashMultiSet<>();
+		MultiSet<String> decoset1= new MultiSetDecorator(mset);
 		wordcount(mset);
+		wordcount(decoset1);
 		chrono1.stop();
 		
 		System.out.println("\n\n");
@@ -82,8 +84,10 @@ public class WordCount {
 		Chrono chrono2 = new Chrono();
 		
 		MultiSet<String> nset= new NaiveMultiSet<>();
+		MultiSet<String> decoset2= new MultiSetDecorator(nset);
 		//wordcount2(nset);
 		wordcount(nset);
+		wordcount(decoset2);
 		chrono2.stop();
 	}
 		

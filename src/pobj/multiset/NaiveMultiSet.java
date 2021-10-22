@@ -82,6 +82,11 @@ public class NaiveMultiSet<T> extends AbstractCollection<T> implements MultiSet<
 		return res;
 	}
 	
+	//Le seul invariant est que la taille de ls est <=0
+	public boolean isConsistent() {
+		return ls.size()<=0;
+	}
+	
 	/*
 	public boolean add(T e, int count) {
 		if(count<=0) {
